@@ -1,0 +1,2 @@
+Gb = 'gabriel'
+print(Gb)
