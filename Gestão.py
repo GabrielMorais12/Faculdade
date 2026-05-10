@@ -38,7 +38,21 @@ while op != 0:
             if login == a[0] and senha == a[1]:
                 print(f'Bem-vindo ADM {login}!')
                 achei = True
-                break
+                op_adms = -99
+                while op_adms != 0:
+                    print('--- Menu do ADM ---')
+                    print('1 - Ver clientes cadastrados')
+                    print('0 - Sair do menu do ADM')
+                    op_adms = int(input('Escolha uma opção: '))
+                    
+                    if op_adms == 1:
+                        print('Clientes cadastrados:')
+                        for c in clientes:
+                            print(f'- {c[0]}')  # Mostra apenas o login dos clientes
+                    elif op_adms == 0:
+                        print('Saindo do menu do ADM...')
+                    else:
+                        print('Opção inválida no menu do ADM!')
         
         # Se não achou no ADM, procura nos Clientes
         if not achei:
@@ -55,3 +69,4 @@ while op != 0:
         print('Encerrando programa...')
     else:
         print('Opção inválida!')
+
