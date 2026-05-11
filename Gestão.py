@@ -1,5 +1,6 @@
 adms = []
 clientes = []
+rebanho = []
 op = -99
 while op != 0:
     print('=== MENU ===')
@@ -58,16 +59,37 @@ while op != 0:
                         print('0 - Voltar ao menu do ADM')
                         op_rebanho = int(input('Escolha uma opção: '))
                         if op_rebanho == 1:
-                            print('Cadastrando animal...')
+                                tipo = input('Tipo (Bovino Leite, Caprino, Ovino, Suíno): ')
+                                id_animal = input('Identificação (Brinco/Número): ')
+                                status = input('Status (Lactação, Engorda, Venda): ')
+                                rebanho.append([id_animal, tipo, status])
+                                print('Animal cadastrado com sucesso!')
                             
                         elif op_rebanho == 2:
-                            print('Buscando animal...')
+                            busca = input('Digite o Brinco/Número para buscar: ')
+                            encontrado = False
+                            for animal in rebanho:
+                                if animal[0] == busca:
+                                    print(f'>> Achado: ID: {animal[0]} | Tipo: {animal[1]} | Status: {animal[2]}')
+                                    encontrado = True
+                            if not encontrado: print('Animal não encontrado.')
                             
                         elif op_rebanho == 3:
-                            print('Atualizando animal...')
+                            busca = input('Digite o ID do animal para atualizar: ')
+                            for animal in rebanho:
+                                if animal[0] == busca:
+                                    animal[1] = input(f'Novo tipo (atual: {animal[1]}): ')
+                                    animal[2] = input(f'Novo status (atual: {animal[2]}): ')
+                                    print('Dados atualizados!')
+                                    break
                             
                         elif op_rebanho == 4:
-                            print('Removendo animal...')
+                            busca = input('Digite o ID do animal para remover: ')
+                            for i in range(len(rebanho)):
+                                if rebanho[i][0] == busca:
+                                    del rebanho[i]
+                                    print('Animal removido!')
+                                    break
                             
                         elif op_rebanho == 0:
                             print('Voltando ao menu do ADM...')
