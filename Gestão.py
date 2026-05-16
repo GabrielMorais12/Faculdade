@@ -2,11 +2,12 @@ adms = []
 clientes = []
 rebanho = []
 estoque_producao = []
+agendamentos = [] 
 op = -99
 
 while op != 0:
-    print('\n=== MENU PRINCIPAL ===')
-    print('1 - Cadastrar novo Administrador')
+    print('\n===MENU PRINCIPAL===')
+    print('1 - Cadastrar novo Administrator')
     print('2 - Cadastrar novo Cliente')
     print('3 - Realizar Login')
     print('0 - Sair do sistema')
@@ -14,7 +15,7 @@ while op != 0:
     op = int(input('Escolha uma opção: '))
 
     if op == 1:
-        print("\n--- CADASTRO DE ADM ---")
+        print("\n===CADASTRO DE ADM===")
         nome = input('Defina o nome de usuário para o ADM: ')
         senha = input('Defina a senha para este ADM: ')
         numero = input('digite o numero de telefone do ADM: ')
@@ -22,7 +23,7 @@ while op != 0:
         print(f'Sucesso: Administrador "{nome}" cadastrado!')
 
     elif op == 2:
-        print("\n--- CADASTRO DE CLIENTE ---")
+        print("\n===CADASTRO DE CLIENTE===")
         nome = input('Defina o nome de usuário para o Cliente: ')
         senha = input('Defina a senha para este Cliente: ')
         numero = input('digite o numero de telefone do Cliente: ')
@@ -42,7 +43,7 @@ while op != 0:
                 achei = True
                 op_adms = -99
                 while op_adms != 0:
-                    print('\n--- MENU DO ADMINISTRADOR ---')
+                    print('\n===MENU DO ADMINISTRADOR===')
                     print('1 - Listar Clientes cadastrados')
                     print('2 - Gerenciar Rebanho')
                     print('3 - Gerenciar Produção')
@@ -109,7 +110,7 @@ while op != 0:
                     elif op_adms == 3:
                         op_prod = -99
                         while op_prod != 0: 
-                            print('\n--- GERENCIAMENTO DE PRODUÇÃO ---')
+                            print('\n===GERENCIAMENTO DE PRODUÇÃO===')
                             print('1 - Cadastrar produção de Leite (L)')
                             print('2 - Cadastrar produção de Derivados') 
                             print('0 - Voltar ao Menu do ADM')
@@ -118,7 +119,7 @@ while op != 0:
                             if op_prod == 1:
                                 litros = float(input('Quantidade de leite produzida (em litros): '))
                                 estoque_producao.append(['Leite', litros])
-                                print('Sucesso: Produção de leite registrada!')
+                                print('Sucesso: Production de leite registrada!')
                                 
                             elif op_prod == 2:
                                 nome_p = input('Nome do produto derivado (ex: Queijo): ')
@@ -140,8 +141,60 @@ while op != 0:
                 if login == c[0] and senha == c[1]:
                     print(f'\n>>> Bem-vindo(a) Cliente {login}!')
                     achei = True
-                    break
-        
+                    op_clientes = -99
+                    while op_clientes != 0:
+                        print('\n=== MENU DO CLIENTE ===')
+                        print('1 - Ver produtos disponíveis para compra')
+                        print('2 - Realizar pedido de compra')
+                        print('3 - Agendar retirada de produtos')
+                        print('4 - Contato do Suporte')
+                        print('0 - Sair do menu Cliente (Logout)')
+                        op_clientes = int(input('Escolha uma opção: '))
+
+                        if op_clientes == 1:
+                            print('\n--- PRODUTOS DISPONÍVEIS ---')
+                            if not estoque_producao:
+                                print('Nenhum produto disponível no momento.')
+                            for p in estoque_producao:
+                                if p[0] == 'Leite':
+                                    print(f'Produto: {p[0]} - Quantidade: {p[1]} litros')
+                                else:
+                                    print(f'Produto: {p[0]} - Quantidade: {p[1]} kg - Valor: R$ {p[2]:.2f}')
+                                    
+                        elif op_clientes == 2:
+                            nome_prod = input('Digite o nome do produto que deseja comprar: ')
+                            quantidade = float(input('Digite a quantidade desejada (litros ou kg): '))
+                            encontrado = False
+                            for p in estoque_producao:
+                                if p[0].lower() == nome_prod.lower():
+                                    encontrado = True
+                                    if p[0] == 'Leite':
+                                        if quantidade <= p[1]:
+                                            p[1] -= quantidade
+                                            print(f'Sucesso: Pedido de {quantidade} litros de leite realizado!')
+                                        else:
+                                            print('Erro: Quantidade solicitada excede o estoque disponível.')
+                                    else:
+                                        if quantidade <= p[1]:
+                                            valor_total = quantidade * p[2]
+                                            p[1] -= quantidade
+                                            print(f'Sucesso: Pedido de {quantidade} kg de {p[0]} realizado! Total a pagar: R$ {valor_total:.2f}')
+                                        else:
+                                            print('Erro: Quantidade solicitada excede o estoque disponível.')
+                            if not encontrado:
+                                print('Erro: Produto não encontrado no estoque.')
+
+                        elif op_clientes == 3:
+                            print('\n===AGENDAR RETIRADA / TRANSPORTE===')
+                            item_retirada = input('Digite o que vai retirar (Leite, Queijos ou Animais): ')
+                            data_retirada = input('Digite a data da retirada (ex: 20/05/2026): ')
+                            hora_retirada = input('Digite o horário da retirada (ex: 14:00): ')
+                            agendamentos.append([login, item_retirada, data_retirada, hora_retirada])
+                            print(f'Sucesso: Retirada de "{item_retirada}" agendada para {data_retirada} às {hora_retirada}h!')
+                        
+                        elif op_clientes == 4:
+                            print('\n--- CONTATO DO SUPORTE ---')
+                            print(numero + ' - Suporte Técnico')
         if not achei:
             print('\nErro: Nome de usuário ou senha inválidos.')
 
