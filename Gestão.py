@@ -18,16 +18,16 @@ while op != 0:
         print("\n===CADASTRO DE ADM===")
         nome = input('Defina o nome de usuário para o ADM: ')
         senha = input('Defina a senha para este ADM: ')
-        numero = input('digite o numero de telefone do ADM: ')
-        adms.append([nome, senha, numero])
+        numero = input('Digite o numero de telefone do ADM: ')
+        adms.append({'nome': nome, 'senha': senha, 'telefone': numero})
         print(f'Sucesso: Administrador "{nome}" cadastrado!')
 
     elif op == 2:
         print("\n===CADASTRO DE CLIENTE===")
         nome = input('Defina o nome de usuário para o Cliente: ')
         senha = input('Defina a senha para este Cliente: ')
-        numero = input('digite o numero de telefone do Cliente: ')
-        clientes.append([nome, senha, numero])
+        numero = input('Digite o numero de telefone do Cliente: ')
+        clientes.append({'nome': nome, 'senha': senha, 'telefone': numero})
         print(f'Sucesso: Cliente "{nome}" cadastrado!')
 
     elif op == 3:
@@ -38,7 +38,7 @@ while op != 0:
         achei = False
         
         for a in adms:
-            if login == a[0] and senha == a[1]:
+            if login == a['nome'] and senha == a['senha']:
                 print(f'\n>>> Bem-vindo(a) ADM {login}!')
                 achei = True
                 op_adms = -99
@@ -56,7 +56,7 @@ while op != 0:
                         if not clientes:
                             print('Nenhum cliente cadastrado no sistema.')
                         for c in clientes:
-                            print(f'Usuário: {c[0]}')
+                            print(f'Usuário: {c["nome"]}')
                             
                     elif op_adms == 2:
                         op_rebanho = -99
@@ -73,15 +73,15 @@ while op != 0:
                                 tipo = input('Digite a espécie/tipo do animal: ')
                                 id_animal = input('Digite o número de identificação do animal: ')
                                 status = input('Informe o status (lactação, engorda ou venda): ')
-                                rebanho.append([id_animal, tipo, status])
+                                rebanho.append({'id': id_animal, 'tipo': tipo, 'status': status})
                                 print('Sucesso: Animal registrado no rebanho!')
                                 
                             elif op_rebanho == 2:
                                 busca = input('Digite o ID do animal que deseja localizar: ')
                                 encontrado = False
                                 for animal in rebanho:
-                                    if animal[0] == busca:
-                                        print(f'>> Animal Localizado: [ID: {animal[0]}, Tipo: {animal[1]}, Status: {animal[2]}]')
+                                    if animal['id'] == busca:
+                                        print(f">> Animal Localizado: [ID: {animal['id']}, Tipo: {animal['tipo']}, Status: {animal['status']}]")
                                         encontrado = True
                                 if not encontrado: 
                                     print('Aviso: Animal com este ID não foi encontrado.')
@@ -89,17 +89,17 @@ while op != 0:
                             elif op_rebanho == 3:
                                 busca = input('Digite o ID do animal que deseja atualizar: ')
                                 for animal in rebanho:
-                                    if animal[0] == busca:
-                                        animal[1] = input('Digite o novo tipo do animal: ')
-                                        animal[2] = input('Digite o novo status do animal: ')
-                                        print('Sucesso: Os dados do animal foram atualizados!')
+                                    if animal['id'] == busca:
+                                        animal['tipo'] = input('Digite o novo tipo do animal: ')
+                                        animal['status'] = input('Digite o novo status do animal: ')
+                                        print('Sucesso: Os dados do animal foram updated!')
                                         break
                                         
                             elif op_rebanho == 4:
                                 busca = input('Digite o ID do animal que deseja remover: ')
                                 achou_rem = False
                                 for animal in rebanho:
-                                    if animal[0] == busca:
+                                    if animal['id'] == busca:
                                         rebanho.remove(animal)
                                         print(f'Sucesso: Animal {busca} removido do sistema.')
                                         achou_rem = True
@@ -118,14 +118,14 @@ while op != 0:
 
                             if op_prod == 1:
                                 litros = float(input('Quantidade de leite produzida (em litros): '))
-                                estoque_producao.append(['Leite', litros])
+                                estoque_producao.append({'produto': 'Leite', 'quantidade': litros, 'valor': 0.0})
                                 print('Sucesso: Production de leite registrada!')
                                 
                             elif op_prod == 2:
                                 nome_p = input('Nome do produto derivado (ex: Queijo): ')
                                 peso = float(input('Peso total produzido (kg): '))
                                 valor = float(input('Valor de venda por unidade/kg: R$ '))
-                                estoque_producao.append([nome_p, peso, valor])
+                                estoque_producao.append({'produto': nome_p, 'quantidade': peso, 'valor': valor})
                                 print(f'Sucesso: Produto "{nome_p}" adicionado ao estoque!')
 
                     elif op_adms == 4:
@@ -133,12 +133,12 @@ while op != 0:
                         if not clientes:
                             print('Nenhum cliente cadastrado no sistema.')
                         for c in clientes:
-                            print(f'Cliente: {c[0]} - Telefone: {c[2]}')
+                            print(f'Cliente: {c["nome"]} - Telefone: {c["telefone"]}')
                 break
 
         if not achei: 
             for c in clientes:
-                if login == c[0] and senha == c[1]:
+                if login == c['nome'] and senha == c['senha']:
                     print(f'\n>>> Bem-vindo(a) Cliente {login}!')
                     achei = True
                     op_clientes = -99
@@ -156,29 +156,29 @@ while op != 0:
                             if not estoque_producao:
                                 print('Nenhum produto disponível no momento.')
                             for p in estoque_producao:
-                                if p[0] == 'Leite':
-                                    print(f'Produto: {p[0]} - Quantidade: {p[1]} litros')
+                                if p['produto'] == 'Leite':
+                                    print(f"Produto: {p['produto']} - Quantidade: {p['quantidade']} litros")
                                 else:
-                                    print(f'Produto: {p[0]} - Quantidade: {p[1]} kg - Valor: R$ {p[2]:.2f}')
+                                    print(f"Produto: {p['produto']} - Quantidade: {p['quantidade']} kg - Valor: R$ {p['valor']:.2f}")
                                     
                         elif op_clientes == 2:
                             nome_prod = input('Digite o nome do produto que deseja comprar: ')
                             quantidade = float(input('Digite a quantidade desejada (litros ou kg): '))
                             encontrado = False
                             for p in estoque_producao:
-                                if p[0].lower() == nome_prod.lower():
+                                if p['produto'].lower() == nome_prod.lower():
                                     encontrado = True
-                                    if p[0] == 'Leite':
-                                        if quantidade <= p[1]:
-                                            p[1] -= quantidade
+                                    if p['produto'] == 'Leite':
+                                        if quantidade <= p['quantidade']:
+                                            p['quantidade'] -= quantidade
                                             print(f'Sucesso: Pedido de {quantidade} litros de leite realizado!')
                                         else:
                                             print('Erro: Quantidade solicitada excede o estoque disponível.')
                                     else:
-                                        if quantidade <= p[1]:
-                                            valor_total = quantidade * p[2]
-                                            p[1] -= quantidade
-                                            print(f'Sucesso: Pedido de {quantidade} kg de {p[0]} realizado! Total a pagar: R$ {valor_total:.2f}')
+                                        if quantidade <= p['quantidade']:
+                                            valor_total = quantidade * p['valor']
+                                            p['quantidade'] -= quantidade
+                                            print(f"Sucesso: Pedido de {quantidade} kg de {p['produto']} realizado! Total a pagar: R$ {valor_total:.2f}")
                                         else:
                                             print('Erro: Quantidade solicitada excede o estoque disponível.')
                             if not encontrado:
@@ -189,12 +189,17 @@ while op != 0:
                             item_retirada = input('Digite o que vai retirar (Leite, Queijos ou Animais): ')
                             data_retirada = input('Digite a data da retirada (ex: 20/05/2026): ')
                             hora_retirada = input('Digite o horário da retirada (ex: 14:00): ')
-                            agendamentos.append([login, item_retirada, data_retirada, hora_retirada])
+                            agendamentos.append({
+                                'cliente': login, 
+                                'item': item_retirada, 
+                                'data': data_retirada, 
+                                'hora': hora_retirada
+                            })
                             print(f'Sucesso: Retirada de "{item_retirada}" agendada para {data_retirada} às {hora_retirada}h!')
                         
                         elif op_clientes == 4:
                             print('\n--- CONTATO DO SUPORTE ---')
-                            print(numero + ' - Suporte Técnico')
+                            print(c['telefone'] + ' - Suporte Técnico')
         if not achei:
             print('\nErro: Nome de usuário ou senha inválidos.')
 
