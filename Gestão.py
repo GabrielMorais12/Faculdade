@@ -189,12 +189,7 @@ while op != 0:
                             item_retirada = input('Digite o que vai retirar (Leite, Queijos ou Animais): ')
                             data_retirada = input('Digite a data da retirada (ex: 20/05/2026): ')
                             hora_retirada = input('Digite o horário da retirada (ex: 14:00): ')
-                            agendamentos.append({
-                                'cliente': login, 
-                                'item': item_retirada, 
-                                'data': data_retirada, 
-                                'hora': hora_retirada
-                            })
+                            agendamentos.append({'cliente': login, 'item': item_retirada, 'data': data_retirada, 'hora': hora_retirada})
                             print(f'Sucesso: Retirada de "{item_retirada}" agendada para {data_retirada} às {hora_retirada}h!')
                         
                         elif op_clientes == 4:
