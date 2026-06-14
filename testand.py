@@ -1,2 +1,0 @@
-Gb = 'gabriel'
-print(Gb)
